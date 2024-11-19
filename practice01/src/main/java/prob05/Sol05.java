@@ -2,18 +2,16 @@ package prob05;
 
 public class Sol05 {
 	public static void main(String[] args) {
-		
-		for(int i = 1; i <= 100; i++) {
-
+		for (int i = 1; i <= 100; i++) {
+			// 숫자를 string 변환
 			String number = String.valueOf(i);
-			System.out.println(i);
-			
-			System.out.print(" ");
-			System.out.println(number.length());
-			System.out.print("\n");
+
+			for (int j = 0; j < number.length(); j++) {
+				if (number.charAt(j) == '3'||number.charAt(j) == '6'||number.charAt(j) == '9') {
+					System.out.print(number);
+					System.out.println(" 짝");
+				}
+			}
 		}
-		
-		char c = '6';
-		System.out.println(c == '7');
 	}
 }
