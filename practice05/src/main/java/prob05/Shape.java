@@ -3,10 +3,11 @@ package prob05;
 public abstract class Shape {
 	protected int width;
 	protected int height;
-	public void getArea() {
+	
+	public abstract double getArea() {
 		
 	}
-	public void getPerimerter() {
+	public abstract double getPerimerter() {
 		
 	}
 }

@@ -2,6 +2,7 @@ package prob04;
 // resize??   array로 만들어라?
 
 // 배열에 대한 지식 부족... 강사님 코드 보고 공부하기
+// resiz를 어떻게 활용할지 모르겠음
 public class MyStack {
 	private int top;
 	private String[] buffer;
