@@ -5,5 +5,17 @@
     <artifactId>java-study</artifactId>
     <version>0.0.1-SNAPSHOT</version>
   </parent>
-  <artifactId>chapter03</artifactId>
+  <artifactId>practice05</artifactId>
+  	<properties>
+		<project.build.sourceEnconding>utf-8</project.build.sourceEnconding>
+		<maven.compiler.source>21</maven.compiler.source>
+		<maven.compiler.target>21</maven.compiler.target>
+	</properties>
+	
+	<dependencies>
+	</dependencies>
+	
+	<build>
+		<finalName>practice05</finalName>
+	</build>
 </project>
