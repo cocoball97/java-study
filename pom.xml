@@ -11,5 +11,8 @@
   	<module>practice03</module>
   	<module>practice04</module>
   	<module>practice05</module>
+  	<module>chatper04</module>
+  	<module>designpattern-practices</module>
+  	<module>network</module>
   </modules>
 </project>
