@@ -17,15 +17,12 @@ public class ChatServer {
 		List<Writer> listWriters = new ArrayList<Writer>();
 
 		try {
-			// 1. 서버 소켓 생성
 			serverSocket = new ServerSocket();
 
-			// 2. 바인딩
 			String hostAddress = InetAddress.getLocalHost().getHostAddress();
 			serverSocket.bind(new InetSocketAddress(hostAddress, PORT));
 			consoleLog("starts...[port:" + PORT + "]");
 
-			// 3. 요청 대기
 			while (true) {
 				Socket socket = serverSocket.accept();
 				// 멀티 쓰레드를 위해서는 run()이 아닌 start()

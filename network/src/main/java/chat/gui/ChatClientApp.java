@@ -15,10 +15,8 @@ public class ChatClientApp {
 			if (name.isEmpty() == false) {
 				break;
 			}
-
 			System.out.println("대화명은 한글자 이상 입력해야 합니다.");
 		}
-
 		scanner.close();
 
 		new ChatWindow(name).show();

@@ -49,7 +49,7 @@ public class ChatWindow {
 		this.name = name;
 	}
 
-	// 소켓생성을 메인스레드X, 생성자X 여기서 하기
+	// 여기서 소켓생성
 	public void show() {
 		// Button
 		buttonSend.setBackground(Color.GRAY);
@@ -64,28 +64,21 @@ public class ChatWindow {
 		});
 
 		try {
-			// 1. 서버 연결 작업, 소켓 생성
 			socket = new Socket();
 			socket.connect(new InetSocketAddress(SERVER_IP, ChatServer.PORT));
 
-			// 2. IO Stream Setting
 			pw = new PrintWriter(new OutputStreamWriter(socket.getOutputStream(), "utf-8"), true);
 			BufferedReader br = new BufferedReader(new InputStreamReader(socket.getInputStream(), "utf-8"));
 
-			// 3. join Protocol
-			// : 따옴표는 base64 인코딩이 안되서 임의로 = 으로 변경해서 인코딩
-			// gui에서는 : 로 출력
+			// : 따옴표는 base64 인코딩이 안되서 임의로 = 으로 변경해서 데이터 전송 후 다시 : 변경
 			encodedStr = encode("join=" + name);
 			pw.println(encodedStr);
 			pw.flush();
 
-			// 4. ChatClientThread 생성
 			new ChatClientThread(br).start();
-
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-
 		// Textfield
 		textField.setColumns(80);
 		textField.addKeyListener(new KeyAdapter() {
@@ -96,7 +89,6 @@ public class ChatWindow {
 					sendMessage();
 				}
 			}
-
 		});
 
 		// Pannel
@@ -121,17 +113,13 @@ public class ChatWindow {
 
 	private void sendMessage() {
 		String message = textField.getText();
-		System.out.println("메시지를 보내는 프로토콜 구현:" + message);
-
 		textField.setText("");
 		textField.requestFocus();
 
 		if ("quit".equals(message) == true) {
 			finish();
 		} else {
-			// 9. 메시지 처리
 			message = "msg=" + message;
-
 			encodedStr = encode(message);
 			pw.println(encodedStr);
 			pw.flush();
@@ -152,17 +140,11 @@ public class ChatWindow {
 
 	private String encode(String message) {
 		return Base64.getEncoder().encodeToString(message.getBytes(StandardCharsets.UTF_8));
-
 	}
 
 	private String decode(String encoded) {
-		try {
-			byte[] decodedBytes = Base64.getDecoder().decode(encoded);
-			return new String(decodedBytes, StandardCharsets.UTF_8);
-		} catch (IllegalArgumentException e) {
-			System.err.println("Base64 디코딩 실패: " + encoded);
-			return null;
-		}
+		byte[] decodedBytes = Base64.getDecoder().decode(encoded);
+		return new String(decodedBytes, StandardCharsets.UTF_8);
 	}
 
 	// 내부클래스(inner class)
@@ -179,7 +161,7 @@ public class ChatWindow {
 			try {
 				while ((line = bufferedReader.readLine()) != null) {
 					line = decode(line);
-					line = line.replace("=",":");
+					line = line.replace("=", ":");
 					System.out.println(line);
 					updateTextArea(line);
 				}
