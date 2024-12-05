@@ -20,6 +20,7 @@ import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.net.InetSocketAddress;
 import java.net.Socket;
+import java.nio.charset.StandardCharsets;
 import java.util.Base64;
 
 import chat.ChatServer;
@@ -36,7 +37,7 @@ public class ChatWindow {
 	private PrintWriter pw;
 	private String encodedStr;
 
-	private static final String SERVER_IP = "192.168.35.127";
+	private static final String SERVER_IP = "192.168.0.13";
 
 	public ChatWindow(String name) {
 		frame = new Frame(name);
@@ -46,21 +47,14 @@ public class ChatWindow {
 		textArea = new TextArea(30, 80);
 
 		this.name = name;
-
 	}
 
 	// 소켓생성을 메인스레드X, 생성자X 여기서 하기
-
 	public void show() {
 		// Button
 		buttonSend.setBackground(Color.GRAY);
 		buttonSend.setForeground(Color.WHITE);
 
-		// ActionListern : 인터페이스
-		// 어나니머스 클래스 - 클래스 이름이 없음, 한번 쓰고 버려질 객체, 일회용
-		// java는 파라미터 인자로 메서드가 들어갈 수 없기 때문에 functional interface 사용한듯?
-
-		// buttonSend.addActionListener(actionEvent -> {});
 		// 버튼 클릭
 		buttonSend.addActionListener(new ActionListener() {
 			@Override
@@ -79,16 +73,16 @@ public class ChatWindow {
 			BufferedReader br = new BufferedReader(new InputStreamReader(socket.getInputStream(), "utf-8"));
 
 			// 3. join Protocol
-			encodedStr = encode("join="+name);
+			// : 따옴표는 base64 인코딩이 안되서 임의로 = 으로 변경해서 인코딩
+			// gui에서는 : 로 출력
+			encodedStr = encode("join=" + name);
 			pw.println(encodedStr);
-			// print, println, write 등 PrintWriter 버퍼 데이터 전송
 			pw.flush();
 
 			// 4. ChatClientThread 생성
 			new ChatClientThread(br).start();
 
 		} catch (IOException e) {
-			System.out.println("에러1번");
 			e.printStackTrace();
 		}
 
@@ -137,7 +131,7 @@ public class ChatWindow {
 		} else {
 			// 9. 메시지 처리
 			message = "msg=" + message;
-			
+
 			encodedStr = encode(message);
 			pw.println(encodedStr);
 			pw.flush();
@@ -157,8 +151,18 @@ public class ChatWindow {
 	}
 
 	private String encode(String message) {
-		String encodedStr = Base64.getEncoder().encodeToString(message.getBytes());
-		return encodedStr;
+		return Base64.getEncoder().encodeToString(message.getBytes(StandardCharsets.UTF_8));
+
+	}
+
+	private String decode(String encoded) {
+		try {
+			byte[] decodedBytes = Base64.getDecoder().decode(encoded);
+			return new String(decodedBytes, StandardCharsets.UTF_8);
+		} catch (IllegalArgumentException e) {
+			System.err.println("Base64 디코딩 실패: " + encoded);
+			return null;
+		}
 	}
 
 	// 내부클래스(inner class)
@@ -174,6 +178,8 @@ public class ChatWindow {
 			String line = null;
 			try {
 				while ((line = bufferedReader.readLine()) != null) {
+					System.out.println(line);
+//					line = decode(line);
 					System.out.println(line);
 					updateTextArea(line);
 				}

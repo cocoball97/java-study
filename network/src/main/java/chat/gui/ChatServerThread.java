@@ -8,6 +8,7 @@ import java.io.PrintWriter;
 import java.io.Writer;
 import java.net.Socket;
 import java.net.SocketException;
+import java.nio.charset.StandardCharsets;
 import java.util.Base64;
 import java.util.List;
 
@@ -27,25 +28,21 @@ public class ChatServerThread extends Thread {
 		String data = nickName + "님이 참여하였습니다.";
 		broadcast(data);
 
-		// write pool에 저장
 		addWriter(writer);
 	}
 
-	// 동기화 및 출력
-	// 동시에 데이터 접근하여 수정하거나 읽으면 불일치 발생
 	private void broadcast(String data) {
 		synchronized (listWriters) {
 			for (Writer writer : listWriters) {
 				PrintWriter printWriter = (PrintWriter) writer;
+//				data = encode(data);
 				printWriter.println(data);
 				printWriter.flush();
 			}
 		}
 	}
 
-	// 동기화 및 입력
 	private void addWriter(Writer writer) {
-		// 동기화 보장
 		synchronized (listWriters) {
 			listWriters.add(writer);
 		}
@@ -92,10 +89,10 @@ public class ChatServerThread extends Thread {
 			// 클라이언트에서 보낸 것을 읽어들여서 분리후 진행
 			while (true) {
 				String request = br.readLine();
-				System.out.println("디코딩전"+request);
+				System.out.println("디코딩전" + request);
 				String decoded = decode(request);
-				System.out.println("디코딩후"+decoded);
-				
+				System.out.println("디코딩후" + decoded);
+
 				String[] tokens = decoded.split("=");
 
 				if ("join".equals(tokens[0])) {
@@ -122,10 +119,19 @@ public class ChatServerThread extends Thread {
 		}
 
 	}
-	
+
+	private String encode(String message) {
+		return Base64.getEncoder().encodeToString(message.getBytes(StandardCharsets.UTF_8));
+
+	}
+
 	private String decode(String encoded) {
-		byte[] decodedBytes = Base64.getDecoder().decode(encoded);
-		String decoded = new String(decodedBytes);
-		return decoded;
+		try {
+			byte[] decodedBytes = Base64.getDecoder().decode(encoded);
+			return new String(decodedBytes, StandardCharsets.UTF_8);
+		} catch (IllegalArgumentException e) {
+			System.err.println("Base64 디코딩 실패: " + encoded);
+			throw e; // 디코딩 실패에 대한 예외를 상위로 전달
+		}
 	}
 }

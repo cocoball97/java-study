@@ -11,7 +11,7 @@ import java.util.Scanner;
 
 public class ChatClient {
 	// 127.0.0.1 왜 안되지
-	private static final String SERVER_IP = "192.168.0.13";
+	private static final String SERVER_IP = "192.168.35.199";
 
 	public static void main(String[] args) {
 		Scanner scanner = null;
