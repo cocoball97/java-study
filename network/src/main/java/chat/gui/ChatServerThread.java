@@ -35,7 +35,7 @@ public class ChatServerThread extends Thread {
 		synchronized (listWriters) {
 			for (Writer writer : listWriters) {
 				PrintWriter printWriter = (PrintWriter) writer;
-//				data = encode(data);
+				data = encode(data);
 				printWriter.println(data);
 				printWriter.flush();
 			}
@@ -53,7 +53,9 @@ public class ChatServerThread extends Thread {
 		synchronized (listWriters) {
 			for (Writer writer : listWriters) {
 				PrintWriter printWriter = (PrintWriter) writer;
-				printWriter.println(nickname + ":" + string);
+				// base64 인코딩을 위해 =로 변경
+				String encodedStr = encode(nickname+ "=" + string);
+				printWriter.println(encodedStr);
 				printWriter.flush();
 			}
 		}

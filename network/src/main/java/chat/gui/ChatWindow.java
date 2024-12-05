@@ -178,8 +178,8 @@ public class ChatWindow {
 			String line = null;
 			try {
 				while ((line = bufferedReader.readLine()) != null) {
-					System.out.println(line);
-//					line = decode(line);
+					line = decode(line);
+					line = line.replace("=",":");
 					System.out.println(line);
 					updateTextArea(line);
 				}
