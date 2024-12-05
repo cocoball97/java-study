@@ -79,6 +79,7 @@ public class ChatWindow {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+
 		// Textfield
 		textField.setColumns(80);
 		textField.addKeyListener(new KeyAdapter() {

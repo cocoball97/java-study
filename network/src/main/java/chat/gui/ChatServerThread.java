@@ -95,7 +95,6 @@ public class ChatServerThread extends Thread {
 					break;
 				}
 			}
-
 		} catch (SocketException e) {
 			ChatServer.consoleLog("Socket Exception" + e);
 		} catch (IOException e) {
