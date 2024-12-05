@@ -120,6 +120,7 @@ public class ChatWindow {
 		if ("quit".equals(message) == true) {
 			finish();
 		} else {
+			// : 따옴표는 base64 인코딩이 안되서 임의로 = 으로 변경해서 데이터 전송 후 다시 : 변경
 			message = "msg=" + message;
 			encodedStr = encode(message);
 			pw.println(encodedStr);

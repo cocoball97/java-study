@@ -2,11 +2,8 @@ package chat;
 
 import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.OutputStreamWriter;
-import java.io.PrintWriter;
-import java.net.Socket;
-import java.util.Scanner;
+import java.nio.charset.StandardCharsets;
+import java.util.Base64;
 
 public class ChatClientThread extends Thread {
 	private BufferedReader bufferedReader;
@@ -18,14 +15,19 @@ public class ChatClientThread extends Thread {
 	@Override
 	public void run() {
 		try {
-			// 수정해야함
 			String line = null;
 			while ((line = bufferedReader.readLine()) != null) {
+				line = decode(line);
+				line = line.replace("=", ":");
 				System.out.println(line);
 			}
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
 
+	}
+	private String decode(String encoded) {
+		byte[] decodedBytes = Base64.getDecoder().decode(encoded);
+		return new String(decodedBytes, StandardCharsets.UTF_8);
 	}
 }

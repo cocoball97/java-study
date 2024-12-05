@@ -8,6 +8,8 @@ import java.io.PrintWriter;
 import java.io.Writer;
 import java.net.Socket;
 import java.net.SocketException;
+import java.nio.charset.StandardCharsets;
+import java.util.Base64;
 import java.util.List;
 
 public class ChatServerThread extends Thread {
@@ -29,12 +31,10 @@ public class ChatServerThread extends Thread {
 		// write pool에 저장
 		addWriter(writer);
 
-		// ack 틀린거같은데? - 다시 공부
-		// 내맘대로 했음
-		// Writer는 추상클래스
-		PrintWriter printWriter = (PrintWriter) writer;
-		printWriter.println("join:ok");
-		printWriter.flush();
+//		// Writer는 추상클래스
+//		PrintWriter printWriter = (PrintWriter) writer;
+//		printWriter.println("join=ok");
+//		printWriter.flush();
 	}
 
 	// 동기화 및 출력
@@ -43,6 +43,7 @@ public class ChatServerThread extends Thread {
 		synchronized (listWriters) {
 			for (Writer writer : listWriters) {
 				PrintWriter printWriter = (PrintWriter) writer;
+				data = encode(data);
 				printWriter.println(data);
 				printWriter.flush();
 			}
@@ -62,7 +63,9 @@ public class ChatServerThread extends Thread {
 		synchronized (listWriters) {
 			for (Writer writer : listWriters) {
 				PrintWriter printWriter = (PrintWriter) writer;
-				printWriter.println(nickname + ":" + string);
+				// base64 인코딩을 위해 =로 변경
+				String encodedStr = encode(nickname + "=" + string);
+				printWriter.println(encodedStr);
 				printWriter.flush();
 			}
 		}
@@ -79,7 +82,6 @@ public class ChatServerThread extends Thread {
 		synchronized (listWriters) {
 			listWriters.remove(writer);
 		}
-
 	}
 
 	@Override
@@ -98,7 +100,8 @@ public class ChatServerThread extends Thread {
 			// 클라이언트에서 보낸 것을 읽어들여서 분리후 진행
 			while (true) {
 				String request = br.readLine();
-				String[] tokens = request.split(":");
+				String decoded = decode(request);
+				String[] tokens = decoded.split("=");
 
 				if ("join".equals(tokens[0])) {
 					doJoin(tokens[1], pw);
@@ -115,14 +118,20 @@ public class ChatServerThread extends Thread {
 
 			}
 
-		} catch (
-
-		SocketException e) {
+		} catch (SocketException e) {
 			ChatServer.consoleLog("Socket Exception" + e);
 		} catch (IOException e) {
 			ChatServer.consoleLog("IO Excpetion:" + e);
 		}
 
+	}
+	private String encode(String message) {
+		return Base64.getEncoder().encodeToString(message.getBytes(StandardCharsets.UTF_8));
+	}
+
+	private String decode(String encoded) {
+		byte[] decodedBytes = Base64.getDecoder().decode(encoded);
+		return new String(decodedBytes, StandardCharsets.UTF_8);
 	}
 
 }
