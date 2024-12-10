@@ -15,4 +15,3 @@ public class MusicPhone extends Phone {
 		System.out.println("MP3 플레이어에서 음악재생");
 	}
 }
-zz
