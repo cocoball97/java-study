@@ -24,7 +24,6 @@ public class ChatClientThread extends Thread {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-
 	}
 	private String decode(String encoded) {
 		byte[] decodedBytes = Base64.getDecoder().decode(encoded);

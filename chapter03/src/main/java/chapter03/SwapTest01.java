@@ -14,5 +14,4 @@ public class SwapTest01 {
 
 		System.out.println(i + ", " + j);
 	}
-
 }

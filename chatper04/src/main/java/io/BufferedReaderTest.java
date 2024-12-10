@@ -18,12 +18,9 @@ public class BufferedReaderTest {
 			// 보조 스트림
 			// 1줄씩 읽기 가능
 			br = new BufferedReader(fr);
-			
 			String line = null;
-			
 			while((line = br.readLine())!=null){
 				System.out.println(line);
-				
 			}
 
 		} catch (FileNotFoundException e) {
@@ -40,7 +37,5 @@ public class BufferedReaderTest {
 
 			}
 		}
-
 	}
-
 }

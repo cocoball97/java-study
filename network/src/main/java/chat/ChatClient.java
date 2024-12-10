@@ -12,7 +12,6 @@ import java.util.Base64;
 import java.util.Scanner;
 
 public class ChatClient {
-
 	private static final String SERVER_IP = "192.168.0.13";
 
 	public static void main(String[] args) {
@@ -20,13 +19,9 @@ public class ChatClient {
 		Socket socket = null;
 		
 		try {
-			// 1. 키보드 연결
 			scanner = new Scanner(System.in, "Euc-kr");
 
-			// 2. socket 생성
 			socket = new Socket();
-
-			// 3. 연결
 			socket.connect(new InetSocketAddress(SERVER_IP, ChatServer.PORT));
 
 			// 4. reader/writer 생성
@@ -36,6 +31,11 @@ public class ChatClient {
 			// 5. join 프로토콜
 			System.out.print("닉네임>>");
 			String nickname = scanner.nextLine();
+			
+			// 입력 텍스트가 2번 나오는게 싫어서 ANSI 이스케이프 시퀀스 이용
+	        System.out.print("\033[F"); // 커서를 이전 줄로 이동
+	        System.out.print("\033[K"); // 현재 줄 내용 지우기
+	        
 			// : 따옴표는 base64 인코딩이 안되서 임의로 = 으로 변경해서 데이터 전송 후 다시 : 변경
 			String encodedname = encode("join" + "=" + nickname);
 			pw.println(encodedname);
@@ -46,6 +46,10 @@ public class ChatClient {
 			new ChatClientThread(br).start();
 			while (true) {
 				String message = scanner.nextLine();
+				
+				// 엔터를 누른 직후 텍스트 지우기
+		        System.out.print("\033[F"); // 커서를 이전 줄로 이동
+		        System.out.print("\033[K"); // 현재 줄 내용 지우기
 
 				// 8. quit 프로토콜 처리
 				if ("quit".equals(message) == true) {
@@ -60,7 +64,6 @@ public class ChatClient {
 					pw.flush();
 				}
 			}
-
 		} catch (IOException ex) {
 			consoleLog("error:" + ex);
 		} finally {
@@ -76,12 +79,10 @@ public class ChatClient {
 			}
 		}
 	}
-
+	
 	private static String encode(String message) {
 		return Base64.getEncoder().encodeToString(message.getBytes(StandardCharsets.UTF_8));
 	}
-
-
 
 	public static void consoleLog(String message) {
 		System.out.println("[Chat Client]" + message);

@@ -56,7 +56,5 @@ public class FileReaderTest {
 				e.printStackTrace();
 			}
 		}
-
 	}
-
 }

@@ -27,14 +27,7 @@ public class ChatServerThread extends Thread {
 
 		String data = nickName + "님이 참여하였습니다.";
 		broadcast(data);
-
-		// write pool에 저장
 		addWriter(writer);
-
-//		// Writer는 추상클래스
-//		PrintWriter printWriter = (PrintWriter) writer;
-//		printWriter.println("join=ok");
-//		printWriter.flush();
 	}
 
 	// 동기화 및 출력
@@ -52,7 +45,6 @@ public class ChatServerThread extends Thread {
 
 	// 동기화 및 입력
 	private void addWriter(Writer writer) {
-		// 동기화 보장
 		synchronized (listWriters) {
 			listWriters.add(writer);
 		}
@@ -73,7 +65,6 @@ public class ChatServerThread extends Thread {
 
 	private void doQuit(Writer writer) {
 		removeWriter(writer);
-
 		String data = nickname + "님이 퇴장하였습니다.";
 		broadcast(data);
 	}

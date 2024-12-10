@@ -17,6 +17,4 @@ public class SwapTest03 {
 		m.val = n.val;
 		n.val = temp;
 	}
-
-	
 }

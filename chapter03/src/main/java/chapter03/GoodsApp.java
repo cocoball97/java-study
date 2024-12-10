@@ -33,6 +33,7 @@ public class GoodsApp {
 		
 		Goods goods2 = new Goods();
 		Goods goods3 = new Goods();
+		
 		// static 변수(클래스 변수)
 		System.out.println(Goods.countOfGoods);
 		

@@ -3,7 +3,6 @@ package exception;
 import java.io.IOException;
 
 public class MyClassTest {
-
 	public static void main(String[] args) {
 		try {
 			new Mycalss().danger();
@@ -12,7 +11,5 @@ public class MyClassTest {
 		} catch (MyException e) {
 			System.out.println("error:" + e);
 		}
-
 	}
-
 }

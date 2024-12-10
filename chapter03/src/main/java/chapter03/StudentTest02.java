@@ -7,7 +7,5 @@ public class StudentTest02 {
 		
 		Person p1 = s1; 			// upcasting(암시적, implicity)
 		Student s2 = (Student)p1;	// downcasting(명시적, explicity)
-		
 	}
-
 }

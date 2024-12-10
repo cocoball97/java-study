@@ -9,5 +9,4 @@ public class UncheckedException {
 			System.out.println(a[i]);
 		}
 	}
-
 }

@@ -8,11 +8,9 @@ public class GraphicText implements Drawable {
 	public GraphicText(String text) {
 		this.text = text;
 	}
-	
+		
 	@Override
 	public void draw() {
 		System.out.println("테스트 :'"+text+"'를 그렸습니다.");
-
 	}
-
 }

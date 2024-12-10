@@ -22,7 +22,6 @@ public class BufferedOutputStreamTest {
 			for (int i = 65; i <= 90; i++) {
 				bos.write(i);
 			}
-
 		} catch (FileNotFoundException e) {
 			System.out.println("File Not Found:" + e);
 		} catch (IOException e) {
@@ -36,7 +35,5 @@ public class BufferedOutputStreamTest {
 				System.out.println("error:" + e);
 			}
 		}
-
 	}
-
 }
