@@ -2,7 +2,6 @@
 package prob06;
 
 public class MoneyTest {
-
 	public static void main(String[] args) {
 		Money five = new Money(5);
 		Money two = new Money(2);
