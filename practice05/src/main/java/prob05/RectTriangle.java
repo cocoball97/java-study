@@ -1,18 +1,17 @@
 package prob05;
 
 public class RectTriangle extends Shape {
-	public RectTriangle (double width, double height) {
-		this.width = width;
-		this.height = heigth;
+	public RectTriangle(double width, double height) {
+		super(width, height);
 	}
 
 	@Override
 	public double getArea() {
-		return (width * height)/2;
+		return (width * height) / 2;
 	}
 
 	@Override
-	public double getPerimerter() {
+	public double getPerimeter() {
 		return (width + height + Math.sqrt(width * width + height * height));
 	}
 

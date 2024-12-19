@@ -6,9 +6,7 @@ public class BirdTest {
 		bird01.setName("꽥꽥이");
 		bird01.fly();
 		bird01.sing();
-		// tostring 오버라이딩에 대해 공부하기
 		System.out.println(bird01);
-		
 
 		Bird bird02 = new Sparrow();
 		bird02.setName("짹짹이");

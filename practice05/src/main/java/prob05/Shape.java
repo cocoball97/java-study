@@ -1,13 +1,14 @@
 package prob05;
 
 public abstract class Shape {
-	protected int width;
-	protected int height;
+	protected double width;
+	protected double height;
 	
-	public abstract double getArea() {
-		
+	protected Shape(double width, double height) {
+		this.width = width;
+		this.height = height;
 	}
-	public abstract double getPerimerter() {
-		
-	}
+	
+	public abstract double getArea();
+	public abstract double getPerimeter();
 }

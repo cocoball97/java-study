@@ -1,16 +1,14 @@
 package prob05;
 
 public class Rectangle extends Shape implements Resizable {
-	public Rectangle (double width, double height) {
-		this.width = width;
-		this.height = heigth;
+	public Rectangle(double width, double height) {
+		super(width, height);
 	}
 
 	@Override
 	public void resize(double rate) {
 		width *= rate;
 		height *= rate;
-		
 	}
 
 	@Override
@@ -19,7 +17,7 @@ public class Rectangle extends Shape implements Resizable {
 	}
 
 	@Override
-	public double getPerimerter() {
+	public double getPerimeter() {
 		return (width + height) * 2;
 	}
 
